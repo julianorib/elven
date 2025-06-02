@@ -2,6 +2,13 @@
 
 ![arquitetura](arch.png)
 
+## Componentes
+
+-
+-
+-
+
+
 ## Requisitos
 
 - Conta na AWS
