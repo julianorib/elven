@@ -80,3 +80,18 @@ resource "aws_security_group" "asglb" {
   }
   tags = merge({ Name = format("%s-sg-http", var.project_name) }, local.common_tags)
 }
+
+## Criar um Security Group para MySQL
+resource "aws_security_group" "acesso-in-mysql" {
+  name        = "acesso-in-mysql"
+  description = "permite acesso in mysql"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description = "MYSQL"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}

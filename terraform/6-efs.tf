@@ -1,4 +1,5 @@
 # Criar o volume EFS
+
 resource "aws_efs_file_system" "wordpress" {
   creation_token = "wordpress"
 
@@ -7,10 +8,10 @@ resource "aws_efs_file_system" "wordpress" {
 
 
 # Montar o EFS para cada Subrede
-resource "aws_efs_mount_target" "alpha" {
-  file_system_id = aws_efs_file_system.foo.id
-  subnet_id      = aws_subnet.alpha.id
-}
+# resource "aws_efs_mount_target" "alpha" {
+#   file_system_id = aws_efs_file_system.foo.id
+#   subnet_id      = aws_subnet.alpha.id
+# }
 
 #   user_data = <<-EOF
 #               #!/bin/bash

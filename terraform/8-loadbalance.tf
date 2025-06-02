@@ -1,13 +1,12 @@
 ## Criar o Loadbalancer para o Autoscaling Group
 resource "aws_lb" "asglb" {
-  name = var.project_name
+  name               = var.project_name
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.asglb.id]
   subnets = [
     aws_subnet.public-1a.id,
-    aws_subnet.public-1b.id,
-    aws_subnet.public-1c.id
+    aws_subnet.public-1b.id
   ]
 
   enable_deletion_protection = false

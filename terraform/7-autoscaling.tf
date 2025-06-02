@@ -2,9 +2,8 @@
 resource "aws_autoscaling_group" "main" {
   name_prefix = format("%s-autoscaling-group", var.project_name)
   vpc_zone_identifier = [
-    aws_subnet.private-1a.id,
-    aws_subnet.private-1b.id,
-    aws_subnet.private-1c.id
+    aws_subnet.public-1a.id,
+    aws_subnet.public-1b.id
   ]
 
   desired_capacity = var.asg_desired_capacity

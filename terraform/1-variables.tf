@@ -19,7 +19,7 @@ variable "tag-dono" {
 variable "tag-ambiente" {
   type        = string
   description = "Ambiente do projeto"
-  default     = "Testes"
+  default     = "Dev"
 }
 
 variable "tag-ccusto" {
@@ -34,17 +34,26 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
+variable "instance_mysql" {
+  type        = string
+  description = "Tipo de Instância MySQL"
+  default     = "db.t4g.micro"
+}
+
 variable "asg_desired_capacity" {
-  type = number
+  type        = number
   description = "Capacidade desejada"
+  default     = 1
 }
 
 variable "asg_min_capacity" {
-  type = number
+  type        = number
   description = "Capacidade minima"
+  default     = 1
 }
 
 variable "asg_max_capacity" {
-  type = number
+  type        = number
   description = "Capacidade maxima"
+  default     = 3
 }

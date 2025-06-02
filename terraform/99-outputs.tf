@@ -3,12 +3,12 @@ output "dns" {
 }
 
 output "endpointdb" {
-  value = aws_db_instance.mydb.endpoint
+  value = aws_db_instance.mysqldb.endpoint
 }
 
 ## Mostrar o IP da Instância
 output "docker_ip" {
-  value = aws_instance.docker.ip
+  value = aws_instance.docker.private_ip
 }
 
 
@@ -17,3 +17,13 @@ output "pritunl_ip" {
   value = aws_instance.pritunl.public_ip
 }
 
+
+output "dbuser" {
+  value = aws_db_instance.mysqldb.username
+}
+
+## Mostrar senha do Banco MySQL
+output "dbpassword" {
+  value = random_password.password.result
+  sensitive = true
+}
