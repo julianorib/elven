@@ -1,5 +1,6 @@
 # elven
 
+![arquitetura](arch.png)
 
 ## Requisitos
 
