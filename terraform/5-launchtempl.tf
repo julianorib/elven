@@ -18,9 +18,9 @@ resource "aws_launch_template" "main" {
     resource_type = "instance"
     tags          = merge({ Name = format("%s-launch-template", var.project_name) }, local.common_tags)
   }
-user_data = base64encode(templatefile("${path.module}/templates/user-data.tpl", {
-    BUCKET = var.bucket_name,
-    REGION = var.region
+user_data = base64encode(templatefile("${path.module}/templates/wordpress.tpl", {
+#    BUCKET = var.bucket_name,
+#    REGION = var.region
   }))
 
 }
