@@ -20,3 +20,5 @@ https://docs.pritunl.com/docs/installation
 
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
+https://aws.amazon.com/pt/elasticache/memcached/wordpress-with-memcached/
+
