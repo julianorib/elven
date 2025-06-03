@@ -1,5 +1,6 @@
 ## Criar um Security Group de acesso Internet
 resource "aws_security_group" "acesso-out-internet" {
+  name = format("%s-sg-internet", var.project_name)
   vpc_id = aws_vpc.vpc.id
 
   egress {
@@ -15,6 +16,7 @@ resource "aws_security_group" "acesso-out-internet" {
 
 ## Criar um Security Group de acesso SSH
 resource "aws_security_group" "acesso-in-ssh" {
+  name = format("%s-sg-ssh", var.project_name)
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -31,6 +33,7 @@ resource "aws_security_group" "acesso-in-ssh" {
 
 ## Criar um Security Group de acesso http
 resource "aws_security_group" "acesso-in-http" {
+  name = format("%s-sg-http", var.project_name)
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -46,6 +49,7 @@ resource "aws_security_group" "acesso-in-http" {
 
 ## Criar um Security Group de acesso https
 resource "aws_security_group" "acesso-in-https" {
+  name = format("%s-sg-https", var.project_name)
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -61,7 +65,7 @@ resource "aws_security_group" "acesso-in-https" {
 
 ## Criar um Security Group para o LoadBalancer
 resource "aws_security_group" "asglb" {
-
+  name = format("%s-sg-asg", var.project_name)
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -78,13 +82,12 @@ resource "aws_security_group" "asglb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = format("%s-sg-http", var.project_name) }, local.common_tags)
+  tags = merge({ Name = format("%s-sg-asg", var.project_name) }, local.common_tags)
 }
 
 ## Criar um Security Group para MySQL
 resource "aws_security_group" "acesso-in-mysql" {
-  name        = "acesso-in-mysql"
-  description = "permite acesso in mysql"
+ name = format("%s-sg-mysql", var.project_name)
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
@@ -94,12 +97,12 @@ resource "aws_security_group" "acesso-in-mysql" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+    tags = merge({ Name = format("%s-sg-mysql", var.project_name) }, local.common_tags)
 }
 
 ## Criar um Security Group para NFS
 resource "aws_security_group" "efs" {
-  name        = "acesso-nfs"
-  description = "Allow NFS"
+   name = format("%s-sg-efs", var.project_name)
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
@@ -115,4 +118,5 @@ resource "aws_security_group" "efs" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+      tags = merge({ Name = format("%s-sg-efs", var.project_name) }, local.common_tags)
 }
