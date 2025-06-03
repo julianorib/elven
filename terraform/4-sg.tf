@@ -2,7 +2,6 @@
 resource "aws_security_group" "acesso-out-internet" {
   name = format("%s-sg-internet", var.project_name)
   vpc_id = aws_vpc.vpc.id
-
   egress {
     description = "all"
     from_port   = 0
@@ -10,7 +9,6 @@ resource "aws_security_group" "acesso-out-internet" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = merge({ Name = format("%s-sg-internet", var.project_name) }, local.common_tags)
 }
 
@@ -18,7 +16,6 @@ resource "aws_security_group" "acesso-out-internet" {
 resource "aws_security_group" "acesso-in-ssh" {
   name = format("%s-sg-ssh", var.project_name)
   vpc_id = aws_vpc.vpc.id
-
   ingress {
     description = "SSH 22"
     from_port   = 22
@@ -26,16 +23,13 @@ resource "aws_security_group" "acesso-in-ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = merge({ Name = format("%s-sg-ssh", var.project_name) }, local.common_tags)
-
 }
 
 ## Criar um Security Group de acesso http
 resource "aws_security_group" "acesso-in-http" {
   name = format("%s-sg-http", var.project_name)
   vpc_id = aws_vpc.vpc.id
-
   ingress {
     description = "HTTP"
     from_port   = 80
@@ -51,7 +45,6 @@ resource "aws_security_group" "acesso-in-http" {
 resource "aws_security_group" "acesso-in-https" {
   name = format("%s-sg-https", var.project_name)
   vpc_id = aws_vpc.vpc.id
-
   ingress {
     description = "HTTP"
     from_port   = 443
@@ -59,15 +52,13 @@ resource "aws_security_group" "acesso-in-https" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   tags = merge({ Name = format("%s-sg-https", var.project_name) }, local.common_tags)
 }
 
-## Criar um Security Group para o LoadBalancer
-resource "aws_security_group" "asglb" {
-  name = format("%s-sg-asg", var.project_name)
+## Criar um Security Group Internet para o LoadBalancer
+resource "aws_security_group" "lb" {
+  name = format("%s-sg-lb", var.project_name)
   vpc_id = aws_vpc.vpc.id
-
   ingress {
     description = "HTTP"
     from_port   = 80
@@ -82,6 +73,25 @@ resource "aws_security_group" "asglb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = merge({ Name = format("%s-sg-lb", var.project_name) }, local.common_tags)
+}
+
+## Criar um Security Group para ASG
+resource "aws_security_group" "asg" {
+  name = format("%s-sg-asg", var.project_name)
+  vpc_id = aws_vpc.vpc.id
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = merge({ Name = format("%s-sg-asg", var.project_name) }, local.common_tags)
 }
 
@@ -89,7 +99,6 @@ resource "aws_security_group" "asglb" {
 resource "aws_security_group" "acesso-in-mysql" {
  name = format("%s-sg-mysql", var.project_name)
   vpc_id      = aws_vpc.vpc.id
-
   ingress {
     description = "MYSQL"
     from_port   = 3306
@@ -104,14 +113,12 @@ resource "aws_security_group" "acesso-in-mysql" {
 resource "aws_security_group" "efs" {
    name = format("%s-sg-efs", var.project_name)
   vpc_id      = aws_vpc.vpc.id
-
   ingress {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   egress {
     from_port   = 0
     to_port     = 0

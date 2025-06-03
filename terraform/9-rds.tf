@@ -1,10 +1,17 @@
 ## Password
 
-resource "random_password" "password" {
+resource "random_password" "admin_password" {
   length           = 16
   special          = true
   override_special = "!#$%&"
 }
+
+resource "random_password" "wp_password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&"
+}
+
 
 ## Criar uma Instância DB com Engine Mysql
 resource "aws_db_instance" "mysqldb" {
@@ -14,7 +21,7 @@ resource "aws_db_instance" "mysqldb" {
   engine_version         = "8.0"
   instance_class         = var.instance_mysql
   username               = "admin"
-  password               = random_password.password.result
+  password               = random_password.admin_password.result
   skip_final_snapshot    = true
   vpc_security_group_ids = [aws_security_group.acesso-in-mysql.id]
   publicly_accessible    = false
