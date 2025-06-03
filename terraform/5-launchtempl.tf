@@ -21,6 +21,8 @@ resource "aws_launch_template" "main" {
     tags          = merge({ Name = format("%s-launch-template", var.project_name) }, local.common_tags)
   }
 
-  user_data = filebase64("${path.module}/wordpress.sh")
+  user_data = base64encode(templatefile("${path.module}/templates/wordpress.tpl", {
+    EFS = aws_efs_file_system.wordpress.id
+  }))
 
 }
