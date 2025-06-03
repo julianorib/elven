@@ -19,7 +19,7 @@ resource "aws_db_instance" "mysqldb" {
   vpc_security_group_ids = [aws_security_group.acesso-in-mysql.id]
   publicly_accessible    = false
   db_subnet_group_name   = aws_db_subnet_group.mysqldb.id
-  multi_az = true
+  multi_az               = true
   tags                   = merge({ Name = format("%s-MySQL", var.project_name) }, local.common_tags)
 }
 

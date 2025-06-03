@@ -24,6 +24,6 @@ output "dbuser" {
 
 ## Mostrar senha do Banco MySQL
 output "dbpassword" {
-  value = random_password.password.result
+  value     = random_password.password.result
   sensitive = true
 }
