@@ -11,9 +11,8 @@ resource "aws_launch_template" "main" {
     aws_security_group.acesso-in-http.id,
     aws_security_group.acesso-in-https.id
   ]
-  iam_instance_profile {
-    name = aws_iam_instance_profile.ec2_profile.name
-  }
+  iam_instance_profile {}
+ 
   key_name = aws_key_pair.main.key_name
 
   tag_specifications {
@@ -21,7 +20,7 @@ resource "aws_launch_template" "main" {
     tags          = merge({ Name = format("%s-launch-template", var.project_name) }, local.common_tags)
   }
 
-  user_data = base64encode(templatefile("${path.module}/templates/wordpress.tpl", {
+  user_data = base64encode(templatefile("${path.module}/templates/nfs.tpl", {
     EFS = aws_efs_file_system.wordpress.id
   }))
 

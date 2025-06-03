@@ -14,16 +14,16 @@ output "pritunl_ip" {
 }
 
 
-# output "endpointdb" {
-#   value = aws_db_instance.mysqldb.endpoint
-# }
+output "dbendpoint" {
+  value = aws_db_instance.mysqldb.endpoint
+}
 
-# output "dbuser" {
-#   value = aws_db_instance.mysqldb.username
-# }
+output "dbuser" {
+  value = aws_db_instance.mysqldb.username
+}
 
-# ## Mostrar senha do Banco MySQL
-# output "dbpassword" {
-#   value = random_password.password.result
-#   sensitive = true
-# }
+## Mostrar senha do Banco MySQL
+output "dbpassword" {
+  value = random_password.password.result
+  sensitive = true
+}
