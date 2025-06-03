@@ -2,10 +2,6 @@ output "dns" {
   value = aws_lb.asglb.dns_name
 }
 
-output "endpointdb" {
-  value = aws_db_instance.mysqldb.endpoint
-}
-
 ## Mostrar o IP da Instância
 output "docker_ip" {
   value = aws_instance.docker.private_ip
@@ -18,12 +14,16 @@ output "pritunl_ip" {
 }
 
 
-output "dbuser" {
-  value = aws_db_instance.mysqldb.username
-}
+# output "endpointdb" {
+#   value = aws_db_instance.mysqldb.endpoint
+# }
 
-## Mostrar senha do Banco MySQL
-output "dbpassword" {
-  value = random_password.password.result
-  sensitive = true
-}
+# output "dbuser" {
+#   value = aws_db_instance.mysqldb.username
+# }
+
+# ## Mostrar senha do Banco MySQL
+# output "dbpassword" {
+#   value = random_password.password.result
+#   sensitive = true
+# }
