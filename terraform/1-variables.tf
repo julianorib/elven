@@ -40,6 +40,18 @@ variable "instance_mysql" {
   default     = "db.t4g.micro"
 }
 
+variable "dbmultiaz" {
+  type = bool
+  description = "Instância MySQL Multi-AZ"
+  default = false
+}
+
+variable "dbadmuser" {
+  type = string
+  description = "Usuario admin Instância MySQL"
+  default = "admin"
+}
+
 variable "asg_desired_capacity" {
   type        = number
   description = "Capacidade desejada"

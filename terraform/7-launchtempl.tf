@@ -2,16 +2,13 @@
 
 resource "aws_launch_template" "main" {
   name_prefix   = format("%s-launch-template", var.project_name)
-#  image_id      = data.aws_ami.amzn-linux-2023-ami.id
-  image_id = aws_ami_from_instance.amimodelo.id
+  image_id      = data.aws_ami.amzn-linux-2023-ami.id
   instance_type = var.instance_type
   network_interfaces {
     associate_public_ip_address = true
     security_groups = [
     aws_security_group.acesso-out-internet.id,
-    aws_security_group.acesso-in-ssh.id,
-    aws_security_group.acesso-in-http.id,
-    aws_security_group.acesso-in-https.id    
+    aws_security_group.acesso-in-http.id  
     ]
   }
   iam_instance_profile {}
@@ -20,10 +17,12 @@ resource "aws_launch_template" "main" {
     resource_type = "instance"
     tags          = merge({ Name = format("%s-launch-template", var.project_name) }, local.common_tags)
   }
-  user_data = base64encode(templatefile("${path.module}/templates/nfs.tpl", {
-    EFS = aws_efs_file_system.wordpress.id
+  user_data = base64encode(templatefile("${path.module}/templates/wp.tpl", {
+    EFS    = aws_efs_file_system.main.id
+    DBHOST = aws_db_instance.mysqldb.address
+    DBUSER = aws_db_instance.mysqldb.username
+    DBPASS = aws_db_instance.mysqldb.password
+    DB = var.project_name
   }))
-  depends_on = [
-    aws_ami_from_instance.amimodelo
-  ]
+  depends_on = [ aws_db_instance.mysqldb ]
 }

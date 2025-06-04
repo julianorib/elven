@@ -1,19 +1,19 @@
-# Criar o volume EFS
-resource "aws_efs_file_system" "wordpress" {
-  creation_token = "wordpress"
+## Criar o volume EFS
+resource "aws_efs_file_system" "main" {
+  creation_token = format("%s-efs", var.project_name)
+  encrypted      = true
   tags           = merge({ Name = format("%s-efs", var.project_name) }, local.common_tags)
 }
 
-
-# Montar o EFS para cada Subrede
+## Montar o EFS para cada Subrede
 resource "aws_efs_mount_target" "subnet-1a" {
-  file_system_id  = aws_efs_file_system.wordpress.id
+  file_system_id  = aws_efs_file_system.main.id
   subnet_id       = aws_subnet.private-1a.id
   security_groups = [aws_security_group.efs.id]
 }
 
 resource "aws_efs_mount_target" "subnet-1b" {
-  file_system_id  = aws_efs_file_system.wordpress.id
+  file_system_id  = aws_efs_file_system.main.id
   subnet_id       = aws_subnet.private-1b.id
   security_groups = [aws_security_group.efs.id]
 }

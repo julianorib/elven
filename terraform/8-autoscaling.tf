@@ -1,7 +1,6 @@
 ## Criar um Grupo de Auto Scaling
 resource "aws_autoscaling_group" "main" {
   name_prefix = format("%s-autoscaling-group", var.project_name)
-#  target_group_arns    = [aws_lb_target_group.asglb.arn]
   vpc_zone_identifier = [
     aws_subnet.public-1a.id,
     aws_subnet.public-1b.id
