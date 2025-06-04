@@ -66,7 +66,19 @@ aws s3 ls
 
 Definir backend remoto `environment/prod/backend.tfvars` e variáveis personalizadas `environment/prod/terraform.tfvars`.
 
+### Autoscaling
 
+Este projeto tem parametros para escalar automaticamente as instâncias ec2 wordpress.\
+Para isto, é necessário defini-los:
+
+| Variável | Padrão | Descrição |
+|-|-|
+| asg_min_capacity | 1 | Se não tiver uso de CPU, poderá diminuir as instâncias até este valor. |
+| asg_desired_capacity | 2 | Capacidade desejada de uso normal. |
+| asg_max_capacity | 3 | Capacidade máxima, caso tenha muito uso de CPU. Necessário para não crescer infinitamente. |
+| asg_threshold | 50.0 | Valor de CPU considerado para começar a aumentar as instâncias. |
+
+### Continuação
 Iniciar o Terraform / Opentofu:
 ```
 cd elven
