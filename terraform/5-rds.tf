@@ -23,7 +23,7 @@ resource "aws_db_instance" "mysqldb" {
   tags                   = merge({ Name = format("%s-MySQL", var.project_name) }, local.common_tags)
 }
 
-## Definir Subnet Privada para MySQL
+## Associar MySQL a Subnet Privada
 resource "aws_db_subnet_group" "mysqldb" {
   name       = format("%s-db", var.project_name)
   subnet_ids = [aws_subnet.private-1a.id, aws_subnet.private-1b.id]

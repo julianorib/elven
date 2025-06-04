@@ -1,19 +1,19 @@
 variable "region" {
   type        = string
   description = "Região dos Recursos"
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 variable "project_name" {
   type        = string
   description = "Nome do projeto"
-  default     = "Exemplo"
+  default     = "wordpress"
 }
 
 variable "tag-dono" {
   type        = string
   description = "Dono do projeto"
-  default     = "Dono"
+  default     = "julianorib"
 }
 
 variable "tag-ambiente" {
@@ -41,21 +41,21 @@ variable "instance_mysql" {
 }
 
 variable "dbmultiaz" {
-  type = bool
+  type        = bool
   description = "Instância MySQL Multi-AZ"
-  default = false
+  default     = false
 }
 
 variable "dbadmuser" {
-  type = string
+  type        = string
   description = "Usuario admin Instância MySQL"
-  default = "admin"
+  default     = "admin"
 }
 
 variable "asg_desired_capacity" {
   type        = number
   description = "Capacidade desejada"
-  default     = 1
+  default     = 2
 }
 
 variable "asg_min_capacity" {
@@ -68,4 +68,40 @@ variable "asg_max_capacity" {
   type        = number
   description = "Capacidade maxima"
   default     = 3
+}
+
+variable "memcachednode" {
+  type        = string
+  description = "Instância MemCached"
+  default     = "cache.t4g.micro"
+}
+
+variable "asg_threshold" {
+  type = number
+  description = "Alarme CPU Autoscaling Group"
+  default = 25.0
+}
+
+variable "docker_threshold" {
+  type = number
+  description = "Alarme CPU Instância Docker"
+  default = 75.0
+}
+
+variable "pritunl_threshold" {
+  type = number
+  description = "Alarme CPU Instância VPN"
+  default = 75.0
+}
+
+variable "mysqldb_threshold" {
+  type = number
+  description = "Alarme CPU Instância MySQL"
+  default = 80.0
+}
+
+variable "memcached_threshold" {
+  type = number
+  description = "Alarme Memória Memcached"
+  default = 134217728
 }

@@ -9,12 +9,12 @@ resource "aws_lb" "asglb" {
     aws_subnet.public-1b.id
   ]
   enable_deletion_protection = false
-  tags = merge({ Name = format("%s-asg-lb", var.project_name) }, local.common_tags)
+  tags                       = merge({ Name = format("%s-asg-lb", var.project_name) }, local.common_tags)
 }
 
 ## Criar um Target Group para o LoadBalancer
 resource "aws_lb_target_group" "asglb" {
- name = format("%s-asg-lb-target", var.project_name)
+  name     = format("%s-asg-lb-target", var.project_name)
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.vpc.id
@@ -22,9 +22,9 @@ resource "aws_lb_target_group" "asglb" {
     path                = "/"
     protocol            = "HTTP"
     matcher             = "200,302"
-    interval           = 30
-    timeout            = 5
-    healthy_threshold  = 2
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
     unhealthy_threshold = 2
   }
   tags = merge({ Name = format("%s-asg-lb-target", var.project_name) }, local.common_tags)
@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "asglb" {
 resource "aws_lb_listener" "forward" {
   load_balancer_arn = aws_lb.asglb.arn
   port              = "80"
-  protocol = "HTTP"
+  protocol          = "HTTP"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.asglb.arn

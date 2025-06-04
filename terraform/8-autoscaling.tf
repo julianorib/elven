@@ -1,6 +1,7 @@
 ## Criar um Grupo de Auto Scaling
 resource "aws_autoscaling_group" "main" {
-  name_prefix = format("%s-autoscaling-group", var.project_name)
+  name = format("%s-asg", var.project_name)
+  #name_prefix = format("%s-autoscaling-group", var.project_name)
   vpc_zone_identifier = [
     aws_subnet.public-1a.id,
     aws_subnet.public-1b.id
@@ -23,14 +24,14 @@ resource "aws_autoscaling_group" "main" {
 
 ## Criar uma Politica de Auto Scaling
 resource "aws_autoscaling_policy" "avg_cpu_scaling" {
-  name                   = "avg_cpu_scaling"
+  name                   = format("%s-autoscaling-group", var.project_name)
   autoscaling_group_name = aws_autoscaling_group.main.name
   policy_type            = "TargetTrackingScaling"
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 20.0
+    target_value = var.asg_threshold
   }
   estimated_instance_warmup = 180
 }

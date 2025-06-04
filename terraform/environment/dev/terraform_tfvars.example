@@ -1,0 +1,5 @@
+region = "us-east-1"
+project_name = "wordpress"
+tag-dono = "julianorib"
+tag-ambiente = "dev"
+dbmultiaz = true

@@ -29,3 +29,8 @@ output "dbpassword" {
   sensitive = true
 }
 
+## Mostrar endpoint MemCached
+output "endpointmemcached" {
+  value = aws_elasticache_cluster.main.cluster_address
+# value = aws_elasticache_cluster.main.cache_nodes[*].address
+}

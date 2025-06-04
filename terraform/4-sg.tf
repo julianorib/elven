@@ -1,20 +1,6 @@
-## Criar um Security Group de acesso Internet
-resource "aws_security_group" "acesso-out-internet" {
-  name   = format("%s-sg-internet", var.project_name)
-  vpc_id = aws_vpc.vpc.id
-  egress {
-    description = "ALL"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = merge({ Name = format("%s-sg-internet", var.project_name) }, local.common_tags)
-}
-
-## Criar um Security Group de acesso SSH
-resource "aws_security_group" "acesso-in-ssh" {
-  name   = format("%s-sg-ssh", var.project_name)
+## Criar um Security Group de Padrão Linux
+resource "aws_security_group" "linux" {
+  name   = format("%s-sg-linux", var.project_name)
   vpc_id = aws_vpc.vpc.id
   ingress {
     description = "SSH"
@@ -23,12 +9,19 @@ resource "aws_security_group" "acesso-in-ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = format("%s-sg-ssh", var.project_name) }, local.common_tags)
+  egress {
+    description = "ALL"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = merge({ Name = format("%s-sg-linux", var.project_name) }, local.common_tags)
 }
 
-## Criar um Security Group de acesso http
-resource "aws_security_group" "acesso-in-http" {
-  name   = format("%s-sg-http", var.project_name)
+## Criar um Security Group web
+resource "aws_security_group" "web" {
+  name   = format("%s-sg-web", var.project_name)
   vpc_id = aws_vpc.vpc.id
   ingress {
     description = "HTTP"
@@ -37,23 +30,51 @@ resource "aws_security_group" "acesso-in-http" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = format("%s-sg-http", var.project_name) }, local.common_tags)
-}
-
-
-## Criar um Security Group de acesso https
-resource "aws_security_group" "acesso-in-https" {
-  name   = format("%s-sg-https", var.project_name)
-  vpc_id = aws_vpc.vpc.id
   ingress {
-    description = "HTTP"
+    description = "HTTPS"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }  
+  egress {
+    description = "ALL"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = format("%s-sg-https", var.project_name) }, local.common_tags)
+  tags = merge({ Name = format("%s-sg-web", var.project_name) }, local.common_tags)
 }
+
+## Criar um Security Group para o ASG
+resource "aws_security_group" "asg" {
+  name   = format("%s-sg-asg", var.project_name)
+  vpc_id = aws_vpc.vpc.id
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }  
+  egress {
+    description = "ALL"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = merge({ Name = format("%s-sg-asg", var.project_name) }, local.common_tags)
+}
+
 
 ## Criar um Security Group Internet para o LoadBalancer
 resource "aws_security_group" "lb" {
@@ -109,4 +130,24 @@ resource "aws_security_group" "efs" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = merge({ Name = format("%s-sg-efs", var.project_name) }, local.common_tags)
+}
+
+## Criar um Security Group para MemCached
+resource "aws_security_group" "memcached" {
+  name   = format("%s-sg-memcached", var.project_name)
+  vpc_id = aws_vpc.vpc.id
+  ingress {
+    description = "MEMCACHE"
+    from_port   = 11211
+    to_port     = 11211
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = merge({ Name = format("%s-sg-memcached", var.project_name) }, local.common_tags)
 }

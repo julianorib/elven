@@ -2,20 +2,39 @@
 
 ![arquitetura](arch.png)
 
-## Componentes
 
--
--
--
-
+Este projeto em `terraform` tem o objetivo de criar uma infraestrutura na AWS para utilizar um site `wordpress` com alta disponibilidade e escalabilidade.\
+Ele conta com banco de dados RDS, um sistema de arquivos EFS, além de um Elastic Cache para otimizar consultas.
 
 ## Requisitos
 
-- Conta na AWS
-- Usuário com permissões
-- Access Key CLI
-- Terraform ou Opentofu
-- AWS CLI
+- [Conta na AWS](https://signin.aws.amazon.com/signup?request_type=register)
+- [Usuário com permissões](https://docs.aws.amazon.com/pt_br/streams/latest/dev/setting-up.html)
+- [Access Token CLI](https://docs.aws.amazon.com/pt_br/workmail/latest/adminguide/personal_access-token.html#)
+- [Terraform](https://developer.hashicorp.com/terraform/install) ou [Opentofu](https://opentofu.org/docs/intro/install/)
+- [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/getting-started-install.html)
+- [GIT](https://git-scm.com/downloads)
+
+Ao aplicar este projeto, será disponibilizado uma URL para acesso ao Wordpress para finalizar a instalação, necessitando apenas informar o `login` e `senha` de gerenciamento do Wordpress. 
+
+## Componentes
+
+- VPC 
+- - Subredes Públicas e Privadas
+- - Rotas
+- - Internet Gateway
+- - NAT Gateway
+- Grupos de Segurança
+- RDS com MySQL
+- Sistema de Arquivos EFS
+- Grupo de Auto Scaling para Instâncias EC2
+- Load Balance 
+- Elastic Cache com Memcached
+- Alarmes do CloudWatch
+
+- 2 Instâncias Extras
+- - Docker Privado
+- - VPN Pritunl
 
 ## Como usar
 
@@ -24,23 +43,22 @@ Clonar este projeto:
 git clone https://github.com/julianorib/elven.git
 ```
 
-Configurar credenciais AWS:
+Configurar credenciais AWS: [Manual](https://docs.aws.amazon.com/pt_br/cli/v1/userguide/cli-configure-files.html)
 ```
-export AWS_ACCESS_KEY=<sua chave>
-export AWS_SECRET_KEY=<sua senha>
+aws configure
 ```
 
-Criar um Bucket para salvar o `Terraform State`
+Criar um Bucket para salvar o `Terraform State`: [Manual](https://awscli.amazonaws.com/v2/documentation/api/latest/index.html)
 ```
 aws s3 mb s3://seubucket
 aws s3 ls
 ```
 
 
-Configurar variáveis `environment/prod/backend.tfvars` e `environment/prod/terraform.tfvars`
+Definir backend remoto `environment/prod/backend.tfvars` e variáveis personalizadas `environment/prod/terraform.tfvars`.
 
 
-Iniciar o Terraform / Opentofu
+Iniciar o Terraform / Opentofu:
 ```
 cd elven
 tofu init -backend-config=environment/prod/backend.tfvars
@@ -80,4 +98,6 @@ https://docs.pritunl.com/docs/installation
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 https://aws.amazon.com/pt/elasticache/memcached/wordpress-with-memcached/
+
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html
 
