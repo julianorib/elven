@@ -6,6 +6,7 @@
 Este projeto em `terraform` tem o objetivo de criar uma infraestrutura na AWS para utilizar um site `wordpress` com alta disponibilidade e escalabilidade.\
 Ele conta com banco de dados RDS, um sistema de arquivos EFS, além de um Elastic Cache para otimizar consultas.
 
+
 ## Requisitos
 
 - [Conta na AWS](https://signin.aws.amazon.com/signup?request_type=register)
@@ -15,7 +16,9 @@ Ele conta com banco de dados RDS, um sistema de arquivos EFS, além de um Elasti
 - [AWS CLI](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/getting-started-install.html)
 - [GIT](https://git-scm.com/downloads)
 
-Ao aplicar este projeto, será disponibilizado uma URL para acesso ao Wordpress para finalizar a instalação, necessitando apenas informar o `login` e `senha` de gerenciamento do Wordpress. 
+Ao aplicar este projeto, será disponibilizado uma URL para acesso ao Wordpress para finalizar a instalação, necessitando apenas definir o `login` e `senha` de gerenciamento do Wordpress. 
+
+Posteriormente será redirecionado para a página de Administração do Wordpress, para personalizar o seu site.
 
 ## Componentes
 
