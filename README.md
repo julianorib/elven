@@ -175,7 +175,7 @@ https://client.pritunl.com/
 ## Apagar infraestrutura (Destruir tudo)
 
 ```
-tofu apply -var-file=environment/prod/terraform.tfvars
+tofu destroy -var-file=environment/prod/terraform.tfvars
 ```
 
 ## Referências
