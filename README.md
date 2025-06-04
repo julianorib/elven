@@ -6,6 +6,12 @@
 Este projeto em `terraform` tem o objetivo de criar uma infraestrutura na AWS para utilizar um site `wordpress` com alta disponibilidade e escalabilidade.\
 Ele conta com banco de dados RDS, um sistema de arquivos EFS, além de um Elastic Cache para otimizar consultas.
 
+#### Extras
+
+Há duas instâncias para fins didáticos:
+- Uma instância em subrede privada, com um Docker instalado para execução de containers.
+- Uma instância de VPN que funciona como uma ponte para ter acesso aos recursos que estão em subredes privadas.
+
 
 ## Requisitos
 
