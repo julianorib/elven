@@ -94,6 +94,9 @@ Ver outputs:
 tofu output
 tofu output -raw dbpassword
 ```
+![output](images/output.png)
+
+**Copie o `Wordpress URL` e cole em seu navegador para finalizar a configuração.**
 
 
 ## VPN
