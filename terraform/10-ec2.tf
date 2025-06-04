@@ -17,7 +17,7 @@ resource "aws_instance" "pritunl" {
   key_name                    = aws_key_pair.main.key_name
   subnet_id                   = aws_subnet.public-1a.id
   associate_public_ip_address = true
-  security_groups             = [aws_security_group.linux.id, aws_security_group.web.id]
+  security_groups             = [aws_security_group.linux.id, aws_security_group.web.id,aws_security_group.vpn.id]
   user_data                   = filebase64("${path.module}/pritunl.sh")
   tags                        = merge({ Name = format("%s-ec2-vpn", var.project_name) }, local.common_tags)
   lifecycle {

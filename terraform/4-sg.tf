@@ -151,3 +151,23 @@ resource "aws_security_group" "memcached" {
   }
   tags = merge({ Name = format("%s-sg-memcached", var.project_name) }, local.common_tags)
 }
+
+## Criar um Security Group para VPN
+resource "aws_security_group" "vpn" {
+  name   = format("%s-sg-vpn", var.project_name)
+  vpc_id = aws_vpc.vpc.id
+  ingress {
+    description = "VPN"
+    from_port   = 15678
+    to_port     = 15678
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = merge({ Name = format("%s-sg-15678", var.project_name) }, local.common_tags)
+}

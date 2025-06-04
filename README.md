@@ -1,6 +1,6 @@
 # elven
 
-![arquitetura](arch.png)
+![arquitetura](images/arch.png)
 
 
 Este projeto em `terraform` tem o objetivo de criar uma infraestrutura na AWS para utilizar um site `wordpress` com alta disponibilidade e escalabilidade.\
@@ -88,6 +88,77 @@ Ver outputs:
 tofu output
 tofu output -raw dbpassword
 ```
+
+
+## VPN
+
+Esta instância VPN foi criada para servir como uma Ponte (bastion) para ter acesso aos Recursos que estão nas Subnets privadas.
+
+### Configurar o Servidor VPN
+
+[Manual](https://docs.pritunl.com/docs/configuration-5)
+
+1 - Acessar o endereço IP que foi exibido no output do terraform/tofu para terminar a configuração da VPN:\
+Ex: `https://<ip-public>`
+
+2 - Acessar o mesmo endereço IP por SSH. Será necessário informar a chave:\
+Ex:
+```
+ssh -l ec2-user -i id_rsa <ip-public>
+```
+
+3 - Executar o comando no Servidor após acessado com ssh:
+```
+sudo pritunl setup-key
+```
+
+4 - Copie o código exibido e informe-o na página Web acessada no 1o passo e clique em Save:
+Ex: `e1d36ad30e4b48f3a91a5a2cc2024fee`
+
+5 - Execute o comando no Servidor acessado com ssh para obter o usuário e senha administrativo:
+```
+sudo pritunl default-password
+```
+
+6- Faça o Login no painel administrativo (página Web):
+Ex:
+```
+  username: "pritunl"
+  password: "n3SxptodPiau"
+```
+7 - Será solicitado finalizar a configuração, trocando a senha para uma de sua escolha.
+
+8 - Dashboard da VPN:
+![dashboard](images/dashboard-vpn.png)
+
+9 - Será necessário criar uma Organização e um Usuário. \
+No menu superior, clique em `Users`, em seguida, clique `Add Organization` e informe um nome de sua escolha.\
+No menu superior, clique em `Users`, em seguida, clique `Add User` e informe um nome de usuário de sua escolha e informe um PIN.
+
+![users](images/users-vpn.png)
+
+10 - Será necessário criar um Servidor, uma Rota e associar a Organização.\
+No menu superior, clique em `Servers`, em seguida, clique `Add Server` e informe um nome de sua escolha, e a Porta 15678. As demais configurações mantem no padrão.\
+Será exibido as configurações do `Server`. No menu superior direito, clique em `Attach Organization`.\
+Para adicionar a Rota, no menu superior direito, clique em `Add Route`, informe a Network `10.0.0.0/16`, ou a rede que desejar ter acesso no ambiente Azure (VPC / Subredes).
+Por fim, no lado esquerdo, clique em `Start Server`.
+
+![servers](images/server-vpn.png)
+
+### Configurar o Client VPN
+
+https://client.pritunl.com/
+
+- Faça download do Pritunl VPN de acordo com o seu sistema operacional.
+
+- Na página de administração da VPN, menu superior, clique em `Users`, em seguida no lado esquerdo do seu usuário, clique no link ![link](images/link.png)para obter um dos links temporários. `Copie o endereço da última opção`.
+
+- Abra o seu Pritunl VPN Client já instalado, e no lado superior direito, clique em `Import`. Cole o endereço copiado no passo anterior na opção `Profile URl`.
+
+![client-vpn-config](images/client-vpn1.png) ![client-vpn-config](images/client-vpn2.png) 
+
+Por fim, clique em `Connect` e informe o PIN criado no passo 9.
+
 
 ## Referências
 
