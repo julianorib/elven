@@ -3,6 +3,13 @@ resource "aws_security_group" "linux" {
   name   = format("%s-sg-linux", var.project_name)
   vpc_id = aws_vpc.vpc.id
   ingress {
+    description = "ICMP"
+    from_port   = 8
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }  
+  ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
@@ -57,6 +64,7 @@ resource "aws_security_group" "asg" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    #security_groups = [aws_security_group.lb.id]
   }
   ingress {
     description = "HTTPS"
@@ -64,6 +72,7 @@ resource "aws_security_group" "asg" {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    #security_groups = [aws_security_group.lb.id]
   }  
   egress {
     description = "ALL"
@@ -108,6 +117,7 @@ resource "aws_security_group" "acesso-in-mysql" {
     to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    #security_groups = [aws_security_group.asg.id]
   }
   tags = merge({ Name = format("%s-sg-mysql", var.project_name) }, local.common_tags)
 }
@@ -122,6 +132,7 @@ resource "aws_security_group" "efs" {
     to_port     = 2049
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    #security_groups = [aws_security_group.asg.id]
   }
   egress {
     from_port   = 0
@@ -141,7 +152,8 @@ resource "aws_security_group" "memcached" {
     from_port   = 11211
     to_port     = 11211
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    #cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.asg.id]
   }
   egress {
     from_port   = 0
@@ -169,5 +181,5 @@ resource "aws_security_group" "vpn" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = format("%s-sg-15678", var.project_name) }, local.common_tags)
+  tags = merge({ Name = format("%s-sg-vpn", var.project_name) }, local.common_tags)
 }

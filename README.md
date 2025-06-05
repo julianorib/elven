@@ -181,7 +181,7 @@ https://client.pritunl.com/
 
 ![client-vpn-config](images/client-vpn1.png) ![client-vpn-config](images/client-vpn2.png) 
 
-- Por fim, clique em `Connect` e informe o PIN criado no passo 9.
+- Por fim, clique em `Connect` e informe o PIN criado com o usuário.
 
 
 ## Apagar infraestrutura (Destruir tudo)
@@ -192,7 +192,6 @@ tofu destroy -var-file=environment/prod/terraform.tfvars
 
 ## Referências
 
-
 https://aws.amazon.com/pt/tutorials/deploy-wordpress-with-amazon-rds/
 
 https://aws.amazon.com/pt/getting-started/tutorials/create-network-file-system/
@@ -202,6 +201,8 @@ https://docs.pritunl.com/docs/installation
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 
 https://aws.amazon.com/pt/elasticache/memcached/wordpress-with-memcached/
+
+https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Appendix.PHPAutoDiscoverySetup.html
 
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html
 
