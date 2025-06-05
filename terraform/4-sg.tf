@@ -73,7 +73,7 @@ resource "aws_security_group" "asg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     #security_groups = [aws_security_group.lb.id]
-  }  
+  }     
   egress {
     description = "ALL"
     from_port   = 0

@@ -47,3 +47,4 @@ resource "aws_autoscaling_attachment" "asglb" {
   autoscaling_group_name = aws_autoscaling_group.main.id
   lb_target_group_arn    = aws_lb_target_group.asglb.arn
 }
+
