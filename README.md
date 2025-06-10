@@ -49,7 +49,7 @@ Posteriormente será redirecionado para a página de Administração do Wordpres
 
 Clonar este projeto:
 ```
-git clone https://github.com/julianorib/elven.git
+git clone https://github.com/julianorib/wordpress.git
 ```
 
 Configurar credenciais AWS: [Manual](https://docs.aws.amazon.com/pt_br/cli/v1/userguide/cli-configure-files.html)
@@ -80,7 +80,7 @@ Para isto, é necessário defini-los:
 ### Continuação
 Iniciar o Terraform / Opentofu:
 ```
-cd elven
+cd wordpress
 tofu init -backend-config=environment/prod/backend.tfvars
 ```
 
